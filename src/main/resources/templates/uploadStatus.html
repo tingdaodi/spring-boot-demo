@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
+
+<head>
+    <title>成功</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div style="text-align: center;">
+    <br><br>
+    <h2>文件上传状态</h2>
+
+    <br><br>
+    <div class="panel panel-success" style="width:800px">
+
+        <div class="panel-heading">
+            <h3 class="panel-title">文件上传</h3>
+        </div>
+
+        <div class="panel-body">
+
+            <div th:if="${message}">
+                <h3 th:text="${message}"></h3>
+            </div>
+
+        </div>
+
+    </div>
+
+    <a href="/upload">
+        <button class="btn btn-primary">返回文件上传</button>
+    </a>
+    <a href="/review">
+        <button class="btn btn-warning" id="review">数据预览</button>
+    </a>
+</div>
+
+</body>
+
+</html>

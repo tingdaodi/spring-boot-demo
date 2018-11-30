@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>文件预览</title>
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<br><br>
+<div style="text-align: center;">
+
+    <button class="btn btn-danger" onclick="show()">文件预览</button>
+    <a href="/upload">
+        <button class="btn btn-warning" id="review">返回主界面</button>
+    </a>
+    <br><br>
+
+    <p id="content"></p>
+
+    <div style="width:800px">
+        <table class="table table-striped table-condensed table-responsive">
+            <thead id="index"></thead>
+            <tbody id="body"></tbody>
+        </table>
+    </div>
+
+    <img id="image" src="" alt=""/>
+
+</div>
+
+</body>
+
+<script th:inline="javascript">
+    const fileType = [[${fileType}]];
+    const filename = [[${fileName}]];
+
+    function show() {
+        if (fileType === "csv") {
+            showTable();
+        } else if ((fileType === "jpg") || (fileType === "png") || (fileType === "gif") || (fileType === "bmp")) {
+            document.getElementById("content").innerHTML = filename;
+            document.getElementById("image").src = "/upload/" + filename;
+        } else {
+            document.getElementById("content").innerHTML = "文件预览只支持csv文件以及部分格式的图片文件！"
+        }
+    }
+
+    function showTable() {
+
+        document.getElementById("content").innerHTML = filename;
+        var thread_content = document.getElementById("index").innerHTML + "";
+        if (thread_content === "") {
+            var result = /*[[${result}]]*/ null;
+            var col_count = result[0].split(",").length;
+            if (result.length > 51) {
+                var record_count = 51;
+            } else {
+                var record_count = result.length;
+            }
+            // 展示表格各个变量的名称
+            var headers = result[0].split(",");
+            row = document.createElement("tr"); //创建行
+            for (var i = 0; i < col_count; i++) {
+                th1 = document.createElement("th"); //创建单元格
+                th1.appendChild(document.createTextNode(headers[i])); //为单元格添加内容
+                row.appendChild(th1); //将单元格添加到行内
+            }
+            document.getElementById("index").append(row); //将行添加到<thread>中
+            for (var i = 1; i < record_count; i++) {
+                row = document.createElement("tr"); //创建行
+                for (var j = 0; j < col_count; j++) {
+                    td1 = document.createElement("td"); //创建单元格
+                    td1.appendChild(document.createTextNode(result[i].split(",")[j])); //为单元格添加内容
+                    row.appendChild(td1); //将单元格添加到行内
+                }
+                document.getElementById("body").append(row); //将行添加到<thread>中
+            }
+        }
+
+    }
+</script>
+
+</html>
